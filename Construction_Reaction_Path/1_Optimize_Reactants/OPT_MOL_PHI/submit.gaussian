@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH -p action
+#SBATCH -J PHI_OPT
+#SBATCH -o output.slurm
+#SBATCH -t 5-00:00:00
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=4
+#SBATCH --mem 5GB
+
+module load gaussian
+
+export OMP_NUM_THREADS=4
+export MKL_NUM_THREADS=4
+export GAUSS_MEMDEF=5GB
+export GAUSS_MDEF=5GB
+
+# ADD THIS TO ALL GAUSSIAN JOBS
+export GAUSS_SCRDIR=/local_scratch/$SLURM_JOB_ID
+
+g16 < geometry.com > geometry.out
+formchk geometry.chk
+
+
+
